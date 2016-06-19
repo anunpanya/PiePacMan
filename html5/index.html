@@ -1,0 +1,163 @@
+<script src="https://netpie.io/microgear.js"></script>
+
+<style>
+	.pointer {
+		cursor: pointer;
+	}
+	
+	.joystick-button {
+		z-index: 100;
+		position: absolute;
+	}
+	
+	#joys {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 512px;
+		height: 294px;
+		margin-left: -256px;
+		margin-top: -147px;
+	}
+
+	#joystick {
+		z-index: 99;
+		position: absolute;
+	}
+	
+	#joystick-state {
+		display: none;
+	}
+	
+</style>
+
+<div id="joys">
+	<img src="assets/images/joystick.png" id="joystick">
+	<img src="assets/images/joystick-button-a.png" class="pointer joystick-button" id="joystick-a" style="margin-left: 317px;margin-top: 115px;" onclick="send('4')">
+	<img src="assets/images/joystick-button-b.png" class="pointer joystick-button" id="joystick-b" style="margin-left: 403px;margin-top: 115px;" onclick="send('5')">
+	<img src="assets/images/joystick-button-left.png" class="pointer joystick-button" id="joystick-left" style="margin-left: 61px;margin-top: 115px;" onclick="send('0')">
+	<img src="assets/images/joystick-button-right.png" class="pointer joystick-button" id="joystick-right" style="margin-left: 147px;margin-top: 115px;" onclick="send('1')">
+	<img src="assets/images/joystick-button-up.png" class="pointer joystick-button" id="joystick-up" style="margin-left: 104px;margin-top: 72px;" onclick="send('2')">
+	<img src="assets/images/joystick-button-down.png" class="pointer joystick-button" id="joystick-down" style="margin-left: 104px;margin-top: 157px;" onclick="send('3')">
+	<img src="assets/images/joystick-button-state.png" class="joystick-button" id="joystick-state" style="margin-left: 232px;margin-top: 125px;">
+</div>
+
+<span id="logs"><span>
+<script>
+	var parameters_string = location.hash.substring(1).split(':');
+	var appid, appkey, appsecret;
+
+	if (parameters_string.length==3) {
+		appid = parameters_string[0];
+		appkey = parameters_string[1];
+		appsecret = parameters_string[2];
+		
+		const APPID = appid;
+		const KEY = appkey;
+		const SECRET = appsecret;
+
+		const ALIAS = "htmlpacman";
+		
+		var microgear = Microgear.create({
+			key: KEY,
+			secret: SECRET,
+			alias : ALIAS
+		});
+
+		function send(m){
+			if(state) microgear.chat("piepacman", m);
+		}
+
+		microgear.on('message',function(topic,msg) {
+			// document.getElementById("data").innerHTML = msg;
+		});
+
+		microgear.on('connected', function() {
+			microgear.setAlias(ALIAS);
+			state = true;
+			document.getElementById("joystick-state").style.display = "block";
+		});
+		
+		microgear.on('disconnected', function() {
+			state = false;
+			document.getElementById("joystick-state").style.display = "none";
+		});
+
+		microgear.on('present', function(event) {
+			console.log(event);
+		});
+
+		microgear.on('absent', function(event) {
+			console.log(event);
+		});
+
+		microgear.resettoken(function(err) {
+			microgear.connect(APPID);
+		});
+	}else{
+		document.getElementById("logs").innerHTML = 'appid or auth invalid, '+window.location.href+'/#APPID:KEY:SECRET';
+	}
+	
+	var state = false;
+	var joystickWidth = 512;
+	var joystickHeight = 294;
+	var buttonWidth = 47;
+	var displayWidth = window.window.innerWidth;
+	var displayHeight = window.window.innerHeight;
+	
+	var sizeWidth = Math.floor(displayWidth/joystickWidth);
+	var sizeHeight = Math.floor(displayHeight/joystickHeight);
+	var size = Math.min(sizeWidth,sizeHeight);
+	
+	if(size>1){		
+		joystickWidth = joystickWidth*size;
+		joystickHeight = joystickHeight*size;
+		buttonWidth = buttonWidth*size;
+		
+		document.getElementById("joystick").style.width = joystickWidth+"px";
+		document.getElementById("joystick").style.height = joystickHeight+"px";
+		
+		document.getElementById("joys").style.width = joystickWidth+"px";
+		document.getElementById("joys").style.height = joystickHeight+"px";
+		document.getElementById("joys").style.marginLeft = "-"+Math.floor(joystickWidth/2)+"px";
+		document.getElementById("joys").style.marginTop = "-"+Math.floor(joystickHeight/2)+"px";
+		
+		document.getElementById("joystick-a").style.width = buttonWidth+"px";
+		document.getElementById("joystick-a").style.height = buttonWidth+"px";
+		document.getElementById("joystick-a").style.marginTop = parseInt(document.getElementById("joystick-a").style.marginTop)*size + "px"
+		document.getElementById("joystick-a").style.marginLeft = parseInt(document.getElementById("joystick-a").style.marginLeft)*size + "px"
+		
+		document.getElementById("joystick-b").style.width = buttonWidth+"px";
+		document.getElementById("joystick-b").style.height = buttonWidth+"px";
+		document.getElementById("joystick-b").style.marginTop = parseInt(document.getElementById("joystick-b").style.marginTop)*size + "px"
+		document.getElementById("joystick-b").style.marginLeft = parseInt(document.getElementById("joystick-b").style.marginLeft)*size + "px"
+		
+		document.getElementById("joystick-left").style.width = buttonWidth+"px";
+		document.getElementById("joystick-left").style.height = buttonWidth+"px";
+		document.getElementById("joystick-left").style.marginTop = parseInt(document.getElementById("joystick-left").style.marginTop)*size + "px"
+		document.getElementById("joystick-left").style.marginLeft = parseInt(document.getElementById("joystick-left").style.marginLeft)*size + "px"
+		
+		document.getElementById("joystick-right").style.width = buttonWidth+"px";
+		document.getElementById("joystick-right").style.height = buttonWidth+"px";
+		document.getElementById("joystick-right").style.marginTop = parseInt(document.getElementById("joystick-right").style.marginTop)*size + "px"
+		document.getElementById("joystick-right").style.marginLeft = parseInt(document.getElementById("joystick-right").style.marginLeft)*size + "px"
+		
+		document.getElementById("joystick-up").style.width = buttonWidth+"px";
+		document.getElementById("joystick-up").style.height = buttonWidth+"px";
+		document.getElementById("joystick-up").style.marginTop = parseInt(document.getElementById("joystick-up").style.marginTop)*size + "px"
+		document.getElementById("joystick-up").style.marginLeft = parseInt(document.getElementById("joystick-up").style.marginLeft)*size + "px"
+		
+		document.getElementById("joystick-down").style.width = buttonWidth+"px";
+		document.getElementById("joystick-down").style.height = buttonWidth+"px";
+		document.getElementById("joystick-down").style.marginTop = parseInt(document.getElementById("joystick-down").style.marginTop)*size + "px"
+		document.getElementById("joystick-down").style.marginLeft = parseInt(document.getElementById("joystick-down").style.marginLeft)*size + "px"
+		
+		document.getElementById("joystick-state").style.width = buttonWidth+"px";
+		document.getElementById("joystick-state").style.height = buttonWidth+"px";
+		document.getElementById("joystick-state").style.marginTop = parseInt(document.getElementById("joystick-state").style.marginTop)*size + "px"
+		document.getElementById("joystick-state").style.marginLeft = parseInt(document.getElementById("joystick-state").style.marginLeft)*size + "px"
+	}
+	
+	console.log(joystickWidth+"*"+joystickHeight);
+	console.log(size);
+</script>
