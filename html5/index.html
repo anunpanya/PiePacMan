@@ -30,7 +30,7 @@
 	}
 	
 </style>
-
+<body onresize="resizeImage()" onload="resizeImage()">
 <div id="joys">
 	<img src="assets/images/joystick.png" id="joystick">
 	<img src="assets/images/joystick-button-a.png" class="pointer joystick-button" id="joystick-a" style="margin-left: 317px;margin-top: 115px;" onclick="send('4')">
@@ -41,6 +41,7 @@
 	<img src="assets/images/joystick-button-down.png" class="pointer joystick-button" id="joystick-down" style="margin-left: 104px;margin-top: 157px;" onclick="send('3')">
 	<img src="assets/images/joystick-button-state.png" class="joystick-button" id="joystick-state" style="margin-left: 232px;margin-top: 125px;">
 </div>
+</body>
 
 <span id="logs"><span>
 <script>
@@ -102,14 +103,15 @@
 	var joystickWidth = 512;
 	var joystickHeight = 294;
 	var buttonWidth = 47;
-	var displayWidth = window.window.innerWidth;
-	var displayHeight = window.window.innerHeight;
-	
-	var sizeWidth = Math.floor(displayWidth/joystickWidth);
-	var sizeHeight = Math.floor(displayHeight/joystickHeight);
-	var size = Math.min(sizeWidth,sizeHeight);
-	
-	if(size>1){		
+
+	function resizeImage() {
+		var displayWidth = window.innerWidth;
+		var displayHeight = window.innerHeight;
+		
+		var sizeWidth = displayWidth/joystickWidth;
+		var sizeHeight = displayHeight/joystickHeight;
+		var size = Math.min(sizeWidth,sizeHeight);
+
 		joystickWidth = joystickWidth*size;
 		joystickHeight = joystickHeight*size;
 		buttonWidth = buttonWidth*size;
@@ -119,45 +121,42 @@
 		
 		document.getElementById("joys").style.width = joystickWidth+"px";
 		document.getElementById("joys").style.height = joystickHeight+"px";
-		document.getElementById("joys").style.marginLeft = "-"+Math.floor(joystickWidth/2)+"px";
-		document.getElementById("joys").style.marginTop = "-"+Math.floor(joystickHeight/2)+"px";
+		document.getElementById("joys").style.marginLeft = "-"+(joystickWidth/2)+"px";
+		document.getElementById("joys").style.marginTop = "-"+(joystickHeight/2)+"px";
 		
 		document.getElementById("joystick-a").style.width = buttonWidth+"px";
 		document.getElementById("joystick-a").style.height = buttonWidth+"px";
-		document.getElementById("joystick-a").style.marginTop = parseInt(document.getElementById("joystick-a").style.marginTop)*size + "px"
-		document.getElementById("joystick-a").style.marginLeft = parseInt(document.getElementById("joystick-a").style.marginLeft)*size + "px"
+		document.getElementById("joystick-a").style.marginTop = parseFloat(document.getElementById("joystick-a").style.marginTop)*size + "px"
+		document.getElementById("joystick-a").style.marginLeft = parseFloat(document.getElementById("joystick-a").style.marginLeft)*size + "px"
 		
 		document.getElementById("joystick-b").style.width = buttonWidth+"px";
 		document.getElementById("joystick-b").style.height = buttonWidth+"px";
-		document.getElementById("joystick-b").style.marginTop = parseInt(document.getElementById("joystick-b").style.marginTop)*size + "px"
-		document.getElementById("joystick-b").style.marginLeft = parseInt(document.getElementById("joystick-b").style.marginLeft)*size + "px"
+		document.getElementById("joystick-b").style.marginTop = parseFloat(document.getElementById("joystick-b").style.marginTop)*size + "px"
+		document.getElementById("joystick-b").style.marginLeft = parseFloat(document.getElementById("joystick-b").style.marginLeft)*size + "px"
 		
 		document.getElementById("joystick-left").style.width = buttonWidth+"px";
 		document.getElementById("joystick-left").style.height = buttonWidth+"px";
-		document.getElementById("joystick-left").style.marginTop = parseInt(document.getElementById("joystick-left").style.marginTop)*size + "px"
-		document.getElementById("joystick-left").style.marginLeft = parseInt(document.getElementById("joystick-left").style.marginLeft)*size + "px"
+		document.getElementById("joystick-left").style.marginTop = parseFloat(document.getElementById("joystick-left").style.marginTop)*size + "px"
+		document.getElementById("joystick-left").style.marginLeft = parseFloat(document.getElementById("joystick-left").style.marginLeft)*size + "px"
 		
 		document.getElementById("joystick-right").style.width = buttonWidth+"px";
 		document.getElementById("joystick-right").style.height = buttonWidth+"px";
-		document.getElementById("joystick-right").style.marginTop = parseInt(document.getElementById("joystick-right").style.marginTop)*size + "px"
-		document.getElementById("joystick-right").style.marginLeft = parseInt(document.getElementById("joystick-right").style.marginLeft)*size + "px"
+		document.getElementById("joystick-right").style.marginTop = parseFloat(document.getElementById("joystick-right").style.marginTop)*size + "px"
+		document.getElementById("joystick-right").style.marginLeft = parseFloat(document.getElementById("joystick-right").style.marginLeft)*size + "px"
 		
 		document.getElementById("joystick-up").style.width = buttonWidth+"px";
 		document.getElementById("joystick-up").style.height = buttonWidth+"px";
-		document.getElementById("joystick-up").style.marginTop = parseInt(document.getElementById("joystick-up").style.marginTop)*size + "px"
-		document.getElementById("joystick-up").style.marginLeft = parseInt(document.getElementById("joystick-up").style.marginLeft)*size + "px"
+		document.getElementById("joystick-up").style.marginTop = parseFloat(document.getElementById("joystick-up").style.marginTop)*size + "px"
+		document.getElementById("joystick-up").style.marginLeft = parseFloat(document.getElementById("joystick-up").style.marginLeft)*size + "px"
 		
 		document.getElementById("joystick-down").style.width = buttonWidth+"px";
 		document.getElementById("joystick-down").style.height = buttonWidth+"px";
-		document.getElementById("joystick-down").style.marginTop = parseInt(document.getElementById("joystick-down").style.marginTop)*size + "px"
-		document.getElementById("joystick-down").style.marginLeft = parseInt(document.getElementById("joystick-down").style.marginLeft)*size + "px"
+		document.getElementById("joystick-down").style.marginTop = parseFloat(document.getElementById("joystick-down").style.marginTop)*size + "px"
+		document.getElementById("joystick-down").style.marginLeft = parseFloat(document.getElementById("joystick-down").style.marginLeft)*size + "px"
 		
 		document.getElementById("joystick-state").style.width = buttonWidth+"px";
 		document.getElementById("joystick-state").style.height = buttonWidth+"px";
-		document.getElementById("joystick-state").style.marginTop = parseInt(document.getElementById("joystick-state").style.marginTop)*size + "px"
-		document.getElementById("joystick-state").style.marginLeft = parseInt(document.getElementById("joystick-state").style.marginLeft)*size + "px"
+		document.getElementById("joystick-state").style.marginTop = parseFloat(document.getElementById("joystick-state").style.marginTop)*size + "px"
+		document.getElementById("joystick-state").style.marginLeft = parseFloat(document.getElementById("joystick-state").style.marginLeft)*size + "px"
 	}
-	
-	console.log(joystickWidth+"*"+joystickHeight);
-	console.log(size);
 </script>
