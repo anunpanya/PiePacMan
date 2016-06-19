@@ -11,9 +11,9 @@
 const char* ssid     = "trueCS";
 const char* password = "cs123456";
 
-#define APPID   "anun"
-#define KEY     "AeQJGmkm2Wy4Va5"
-#define SECRET  "S96ImTDdQy94oYjMjYgXM2Va5"
+#define APPID   ""
+#define KEY     ""
+#define SECRET  ""
 #define ALIAS   "piepacman"
 
 ESPert espert;
