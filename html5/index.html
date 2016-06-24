@@ -75,6 +75,7 @@
 
 		microgear.on('connected', function() {
 			microgear.setAlias(ALIAS);
+			microgear.chat("piepacman", "9");
 			state = true;
 			document.getElementById("joystick-state").style.display = "block";
 		});
